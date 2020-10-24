@@ -34,8 +34,3 @@ out/
 # Maven
 target/
 log/*
-
-# Specific
-Requirements.md
-
-
