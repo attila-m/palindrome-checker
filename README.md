@@ -45,7 +45,8 @@ To run the project, use
 | :---: | :---: | :---: |
 | `content` | `string` | **Required** <br> Your message, will be checked for palindromes |
 | `timestamp` | `string` | **Required** <br> A timestamp, format should be: <br> yyyy-MM-dd HH-mm-ssXXX |
-Example
+
+#### Example
 ```json
 {
   "content": "abrakadabra",
@@ -61,8 +62,9 @@ Example
 | :---: | :---: | :---: |
 | `content` | `string` | The original message |
 | `timestamp` | `string` | The timestamp, format will be: <br> yyyy-MM-dd HH-mm-ssXXX |
-| `longest_palindrome_size` | `number` | Size of the longest palindrome in the message
-Response
+| `longest_palindrome_size` | `number` | Size of the longest palindrome in the message |
+
+#### Response
 ```json
 [
   {   
