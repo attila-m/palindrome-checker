@@ -37,14 +37,14 @@ To run the project, use
 
 ## Endpoints
 
-### Create message
+* ### Create message
 ```http
   POST /messages
 ```
 | Parameter | Type | Description |
 | :---: | :---: | :---: |
 | `content` | `string` | **Required** <br> Your message, will be checked for palindromes |
-| `timestamp` | `string` | **Required** <br> A timestamp, format should be: <br> yyyy-MM-dd HH-mm-ssXXX |
+| `timestamp` | `string` | **Required** <br> A timestamp, format should be: <br> yyyy-MM-dd HH:mm:ssZ |
 
 #### Example
 ```json
@@ -54,14 +54,14 @@ To run the project, use
 }
 ```
 
-### Read messages, enriched with palindrome count
+* ### Read messages, enriched with palindrome count
 ```http
   GET /messages/palindrome
 ```
 | Parameter | Type | Description |
 | :---: | :---: | :---: |
 | `content` | `string` | The original message |
-| `timestamp` | `string` | The timestamp, format will be: <br> yyyy-MM-dd HH-mm-ssXXX |
+| `timestamp` | `string` | The timestamp, format will be: <br> yyyy-MM-dd HH:mm:ssZ |
 | `longest_palindrome_size` | `number` | Size of the longest palindrome in the message |
 
 #### Response
@@ -75,9 +75,9 @@ To run the project, use
 ]
 ```
 
-### Monitor messages sent to the server
+* ### Monitor messages sent to the server
 ```http
-  GET /home
+  GET /
 ``` 
 
 ## Pictures of the app
