@@ -19,6 +19,12 @@ public class MessageServiceImpl implements MessageService {
         this.messageRepository = messageRepository;
     }
 
+    /**
+     * Gets all of the messages persisted in the database,
+     * converts them into DTOs and enriches them with the
+     * longest palindrome number
+     * @return List<MessageDTO>
+     */
     @Override
     public Message createMessage(MessageDTO messageDTO) {
         return messageRepository.save(convertDTOToMessage(messageDTO));
@@ -49,16 +55,24 @@ public class MessageServiceImpl implements MessageService {
         return messageRepository.findAll().stream()
                 .map(m -> {
                     MessageDTO messageDTO = convertMessageToDTO(m);
-                    messageDTO.setLongestPalindrome(calculateLongestPalindrome(messageDTO.getContent()));
+                    messageDTO.setLongestPalindrome(findLongestPalindrome(messageDTO.getContent()));
                     return messageDTO;
                 })
                 .collect(Collectors.toList());
     }
 
-    private int calculateLongestPalindrome(String content) {
+    /**
+     * Will find longest palindrome in content and return its length
+     * after trimming non alphabetical characters.
+     * @param String content
+     * @return int Length of longest palindrome in content
+     */
+    private int findLongestPalindrome(String content) {
         if (content.isEmpty()) {
             return 0;
         }
+
+        content.replaceAll("[^A-Za-z]","");
 
         if (content.length() == 1) {
             return 1;
