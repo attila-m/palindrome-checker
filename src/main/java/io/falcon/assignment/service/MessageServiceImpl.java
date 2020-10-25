@@ -64,15 +64,15 @@ public class MessageServiceImpl implements MessageService {
     /**
      * Will find longest palindrome in content and return its length
      * after trimming non alphabetical characters.
-     * @param String content
-     * @return int Length of longest palindrome in content
+     * @param  content : String
+     * @return Length of longest palindrome in content : int
      */
-    private int findLongestPalindrome(String content) {
+    private int findLongestPalindrome(String s) {
+        String content = getAlphabeticString(s);
+
         if (content.isEmpty()) {
             return 0;
         }
-
-        content.replaceAll("[^A-Za-z]","");
 
         if (content.length() == 1) {
             return 1;
@@ -100,5 +100,17 @@ public class MessageServiceImpl implements MessageService {
             end++;
         }
         return s.substring(begin + 1, end);
+    }
+
+    private String getAlphabeticString(String s) {
+        char[] chars = s.toCharArray();
+        String alphabetic = "";
+
+        for (char c : chars) {
+            if (Character.isLetter(c)) {
+                alphabetic += c;
+            }
+        }
+        return alphabetic;
     }
 }
