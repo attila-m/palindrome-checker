@@ -6,11 +6,15 @@ import io.falcon.assignment.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class MessageServiceImpl implements MessageService {
+
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ssZ");
 
     private MessageRepository messageRepository;
 
@@ -39,15 +43,19 @@ public class MessageServiceImpl implements MessageService {
     public Message convertDTOToMessage(MessageDTO messageDTO) {
         Message message = new Message();
         message.setContent(messageDTO.getContent());
-        message.setTimestamp(messageDTO.getTimestamp());
+        message.setTimestamp(parseStringTimeStampToLocalDateTime(messageDTO.getTimestamp()));
         return message;
+    }
+
+    private ZonedDateTime parseStringTimeStampToLocalDateTime(String timestamp) {
+        return ZonedDateTime.parse(timestamp, DATE_TIME_FORMATTER);
     }
 
     @Override
     public MessageDTO convertMessageToDTO(Message message) {
         MessageDTO messageDTO = new MessageDTO();
         messageDTO.setContent(message.getContent());
-        messageDTO.setTimestamp(message.getTimestamp());
+        messageDTO.setTimestamp(message.getTimestamp().format(DATE_TIME_FORMATTER));
         return messageDTO;
     }
 
@@ -64,7 +72,7 @@ public class MessageServiceImpl implements MessageService {
     /**
      * Will find longest palindrome in content and return its length
      * after trimming non alphabetical characters.
-     * @param  content : String
+     * @param  s : String
      * @return Length of longest palindrome in content : int
      */
     private int findLongestPalindrome(String s) {
