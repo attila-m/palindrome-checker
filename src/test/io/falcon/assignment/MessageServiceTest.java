@@ -9,6 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +19,8 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MessageServiceTest {
+
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ssZ");
 
     @Mock
     private MessageRepository repository;
@@ -29,7 +33,7 @@ public class MessageServiceTest {
         List<Message> messages = new ArrayList<>();
         Message message = new Message();
         message.setContent("");
-        message.setTimestamp("2018-10-09 00:12:12+0100");
+        message.setTimestamp(ZonedDateTime.parse("2018-10-09 00:12:12+0100", DATE_TIME_FORMATTER));
         messages.add(message);
 
         when(repository.findAll()).thenReturn(messages);
@@ -45,7 +49,7 @@ public class MessageServiceTest {
         List<Message> messages = new ArrayList<>();
         Message message = new Message();
         message.setContent("a");
-        message.setTimestamp("2018-10-09 00:12:12+0100");
+        message.setTimestamp(ZonedDateTime.parse("2018-10-09 00:12:12+0100", DATE_TIME_FORMATTER));
         messages.add(message);
 
         when(repository.findAll()).thenReturn(messages);
@@ -62,7 +66,7 @@ public class MessageServiceTest {
         List<Message> messages = new ArrayList<>();
         Message message = new Message();
         message.setContent("abbabbbba");
-        message.setTimestamp("2018-10-09 00:12:12+0100");
+        message.setTimestamp(ZonedDateTime.parse("2018-10-09 00:12:12+0100", DATE_TIME_FORMATTER));
         messages.add(message);
 
         when(repository.findAll()).thenReturn(messages);
@@ -78,13 +82,13 @@ public class MessageServiceTest {
         List<Message> messages = new ArrayList<>();
         Message message = new Message();
         message.setContent("abbabbbba");
-        message.setTimestamp("2018-10-09 00:12:12+0100");
+        message.setTimestamp(ZonedDateTime.parse("2018-10-09 00:12:12+0100", DATE_TIME_FORMATTER));
         messages.add(message);
 
         when(repository.findAll()).thenReturn(messages);
 
         String actual = service.getAllMessagesWithPalindromeSize().get(0).getTimestamp();
-        String expected = message.getTimestamp();
+        String expected = service.convertMessageToDTO(message).getTimestamp();
 
         assertEquals(expected, actual);
     }
