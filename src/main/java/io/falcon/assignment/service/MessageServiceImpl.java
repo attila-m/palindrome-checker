@@ -56,7 +56,35 @@ public class MessageServiceImpl implements MessageService {
     }
 
     private int calculateLongestPalindrome(String content) {
-        return 0;
+        if (content.isEmpty()) {
+            return 0;
+        }
+
+        if (content.length() == 1) {
+            return 1;
+        }
+
+        String longest = content.substring(0, 1);
+        for (int i = 0; i < content.length(); i++) {
+
+            String tmp = checkForEquality(content, i, i);
+            if (tmp.length() > longest.length()) {
+                longest = tmp;
+            }
+
+            tmp = checkForEquality(content, i, i + 1);
+            if (tmp.length() > longest.length()) {
+                longest = tmp;
+            }
+        }
+        return longest.length();
     }
 
+    private String checkForEquality(String s, int begin, int end) {
+        while (begin >= 0 && end <= s.length() - 1 && s.charAt(begin) == s.charAt(end)) {
+            begin--;
+            end++;
+        }
+        return s.substring(begin + 1, end);
+    }
 }
