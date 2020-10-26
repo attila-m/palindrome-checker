@@ -1,5 +1,6 @@
 package io.falcon.assignment;
 
+import io.falcon.assignment.dto.MessageDTO;
 import io.falcon.assignment.entity.Message;
 import io.falcon.assignment.repository.MessageRepository;
 import io.falcon.assignment.service.MessageServiceImpl;
@@ -8,15 +9,18 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
+@SpringBootTest
 @RunWith(MockitoJUnitRunner.class)
 public class MessageServiceTest {
 
@@ -91,6 +95,27 @@ public class MessageServiceTest {
         String expected = service.convertMessageToDTO(message).getTimestamp();
 
         assertEquals(expected, actual);
+    }
+
+    @Test(expected = DateTimeParseException.class)
+    public void getAllMessagesWithPalindromeSize_shouldThrowExceptionWhenWrongDateFormat() {
+        List<Message> messages = new ArrayList<>();
+        Message message = new Message();
+        message.setContent("a");
+        message.setTimestamp(ZonedDateTime.parse("wrong format", DATE_TIME_FORMATTER));
+        messages.add(message);
+
+        when(repository.findAll()).thenReturn(messages);
+        service.getAllMessagesWithPalindromeSize();
+    }
+
+    @Test(expected = DateTimeParseException.class)
+    public void createMessage_shouldThrowExceptionWhenWrongDateFormat() {
+        MessageDTO message = new MessageDTO();
+        message.setContent("a");
+        message.setTimestamp("wrong format");
+
+        service.createMessage(message);
     }
 
 }
