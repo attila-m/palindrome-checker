@@ -76,7 +76,7 @@ public class MessageServiceImpl implements MessageService {
      * @return Length of longest palindrome in content : int
      */
     private int getLongestPalindromeLength(String s) {
-        String content = getOnlyAlphabet(s);
+        String content = getOnlyAlphabet(s).toLowerCase();
 
         if (content.isEmpty()) {
             return 0;
