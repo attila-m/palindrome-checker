@@ -63,7 +63,7 @@ public class MessageServiceImpl implements MessageService {
         return messageRepository.findAll().stream()
                 .map(m -> {
                     MessageDTO messageDTO = convertMessageToDTO(m);
-                    messageDTO.setLongestPalindrome(findLongestPalindrome(messageDTO.getContent()));
+                    messageDTO.setLongestPalindrome(getLongestPalindromeLength(messageDTO.getContent()));
                     return messageDTO;
                 })
                 .collect(Collectors.toList());
@@ -75,8 +75,8 @@ public class MessageServiceImpl implements MessageService {
      * @param  s : String
      * @return Length of longest palindrome in content : int
      */
-    private int findLongestPalindrome(String s) {
-        String content = getAlphabeticString(s);
+    private int getLongestPalindromeLength(String s) {
+        String content = getOnlyAlphabet(s);
 
         if (content.isEmpty()) {
             return 0;
@@ -89,36 +89,36 @@ public class MessageServiceImpl implements MessageService {
         String longest = content.substring(0, 1);
         for (int i = 0; i < content.length(); i++) {
 
-            String tmp = checkForEquality(content, i, i);
-            if (tmp.length() > longest.length()) {
-                longest = tmp;
+            String temp = getEqual(content, i, i);
+            if (temp.length() > longest.length()) {
+                longest = temp;
             }
 
-            tmp = checkForEquality(content, i, i + 1);
-            if (tmp.length() > longest.length()) {
-                longest = tmp;
+            temp = getEqual(content, i, i + 1);
+            if (temp.length() > longest.length()) {
+                longest = temp;
             }
         }
         return longest.length();
     }
 
-    private String checkForEquality(String s, int begin, int end) {
-        while (begin >= 0 && end <= s.length() - 1 && s.charAt(begin) == s.charAt(end)) {
-            begin--;
+    private String getEqual(String s, int start, int end) {
+        while (start >= 0 && end <= s.length() - 1 && s.charAt(start) == s.charAt(end)) {
+            start--;
             end++;
         }
-        return s.substring(begin + 1, end);
+        return s.substring(start + 1, end);
     }
 
-    private String getAlphabeticString(String s) {
+    private String getOnlyAlphabet(String s) {
         char[] chars = s.toCharArray();
-        String alphabetic = "";
+        String onlyAlphabet = "";
 
         for (char c : chars) {
             if (Character.isLetter(c)) {
-                alphabetic += c;
+                onlyAlphabet += c;
             }
         }
-        return alphabetic;
+        return onlyAlphabet;
     }
 }
