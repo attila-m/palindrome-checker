@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +24,12 @@ public class MessageServiceImpl implements MessageService {
         this.messageRepository = messageRepository;
     }
 
+
+    @Override
+    public Message createMessage(MessageDTO messageDTO) throws DateTimeParseException {
+        return messageRepository.save(convertDTOToMessage(messageDTO));
+    }
+
     /**
      * Gets all of the messages persisted in the database,
      * converts them into DTOs and enriches them with the
@@ -30,12 +37,7 @@ public class MessageServiceImpl implements MessageService {
      * @return List<MessageDTO>
      */
     @Override
-    public Message createMessage(MessageDTO messageDTO) {
-        return messageRepository.save(convertDTOToMessage(messageDTO));
-    }
-
-    @Override
-    public List<MessageDTO> getAllMessagesWithPalindromeSize() {
+    public List<MessageDTO> getAllMessagesWithPalindromeSize() throws DateTimeParseException {
         return getEnrichedMessages();
     }
 
