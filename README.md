@@ -9,7 +9,6 @@ README
 - [Prerequisites](#prerequisites)
 - [Start the app](#start-the-app)
 - [Endpoints](#endpoints)
-- [Pictures of the app](#pictures-of-the-app)
 
 ## Description
 
@@ -30,6 +29,11 @@ To build the project, use
   $ ./mvnw clean package
 ```
 
+To run the tests, use
+```bash
+  $ ./mvnw test
+```
+
 To run the project, use
 ```bash
   $ docker-compose up
@@ -45,6 +49,9 @@ To run the project, use
 | :---: | :---: | :---: |
 | `content` | `string` | **Required** <br> Your message, will be checked for palindromes |
 | `timestamp` | `string` | **Required** <br> A timestamp, format should be: <br> yyyy-MM-dd HH:mm:ssZ |
+
+Messages persisted in a PostgreSQL database.
+Please be aware of the timezone configuration of your database.
 
 #### Example
 ```json
@@ -65,6 +72,7 @@ To run the project, use
 | `longest_palindrome_size` | `number` | Size of the longest palindrome in the message |
 
 #### Response
+![Screenshot2](readme-images/palindromes.png)
 ```json
 [
   {   
@@ -74,10 +82,18 @@ To run the project, use
   }
 ]
 ```
+When computing palindromes only alphabetic characters considered, 
+everything else ignored, case-insensitive
 
 * ### Monitor messages sent to the server
 ```http
   GET /
 ``` 
+![Screenshot1](readme-images/indexpage.png)
 
-## Pictures of the app
+Broadcaster through the STOMP websocket:
+```http
+  /topic/messages
+```
+
+
